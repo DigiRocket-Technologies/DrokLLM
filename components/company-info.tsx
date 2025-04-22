@@ -15,12 +15,12 @@ export function CompanyInfo() {
     <Card className="border-0 shadow-none bg-background">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center text-xl">
-          <div className="relative w-40 h-24 mr-2">
+          <div className="relative w-50 h-34 mr-2">
             <Image
               src="/drok-logo.png"
               alt="DROK Logo"
-              width={160}
-              height={96}
+              width={180}
+              height={120}
               className="object-contain"
             />
             {/* Changed to rectangular image with size 160x96 from square 128x128 */}
