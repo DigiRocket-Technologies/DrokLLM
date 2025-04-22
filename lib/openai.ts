@@ -53,7 +53,7 @@ export async function streamingChat({
         { role: "system", content: DIGIROCKET_PROMPT },
         ...messages.filter(message => message.role !== "system")
       ],
-      max_tokens: 800,
+      max_tokens: 1024,
       temperature: 0.7,
       top_p: 0.9,
       stream: true,
