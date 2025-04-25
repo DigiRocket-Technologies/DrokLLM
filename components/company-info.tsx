@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -9,15 +9,23 @@ import {
 import { GlobeIcon, AwardIcon, PhoneIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 export function CompanyInfo() {
+  const [logoSrc, setLogoSrc] = useState("drok-logo-black.png");
+
+  const { theme } = useTheme();
+  useEffect(() => {
+    setLogoSrc(theme === "light" ? "drok-logo-black.png" : "drok-logo.png");
+  }, [theme]);
+
   return (
     <Card className="border-0 shadow-none bg-background">
       <CardHeader className="pb-2">
         <CardTitle className="flex items-center text-xl">
           <div className="relative w-50 h-34 mr-2">
             <Image
-              src="/drok-logo.png"
+              src={logoSrc}
               alt="DROK Logo"
               width={180}
               height={120}
