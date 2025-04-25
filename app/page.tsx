@@ -1,13 +1,22 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ChatContainer } from "@/components/chat-container";
 import { CompanyInfo } from "@/components/company-info";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MessageSquareIcon, InfoIcon } from "lucide-react";
+import { ModeToggle } from "@/components/theme-toggle";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 export default function Home() {
+  const [logoSrc, setLogoSrc] = useState("drok-logo-black.png");
+
+  const { theme } = useTheme();
+  useEffect(() => {
+    setLogoSrc(theme === "light" ? "drok-logo-black.png" : "drok-logo.png");
+  }, [theme]);
+
   return (
     <div className="flex flex-col min-h-screen">
       <header className="border-b bg-background sticky top-0 z-50">
@@ -15,7 +24,7 @@ export default function Home() {
           <div className="flex items-center gap-2">
             <div className="relative w-28 h-8">
               <Image
-                src="/drok-logo.png"
+                src={logoSrc}
                 alt="DROK Logo"
                 width={100}
                 height={100}
@@ -24,6 +33,7 @@ export default function Home() {
             </div>
             <h1 className="text-lg font-bold"></h1>
           </div>
+          <ModeToggle />
         </div>
       </header>
 
