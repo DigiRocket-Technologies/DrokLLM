@@ -1,83 +1,64 @@
+"use client";
+
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { GlobeIcon, AwardIcon, PhoneIcon } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+import { ChatContainer } from "@/components/chat-container";
+import { CompanyInfo } from "@/components/company-info";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MessageSquareIcon, InfoIcon } from "lucide-react";
 import Image from "next/image";
 
-export function CompanyInfo() {
+export default function Home() {
   return (
-    <Card className="border-0 shadow-none bg-background">
-      <CardHeader className="pb-2">
-        <CardTitle className="flex items-center text-xl">
-          <div className="relative w-50 h-34 mr-2">
-            <Image
-              src="/drok-logo.png"
-              alt="DROK Logo"
-              width={180}
-              height={120}
-              className="object-contain"
-            />
-            {/* Changed to rectangular image with size 160x96 from square 128x128 */}
+    <div className="flex flex-col min-h-screen">
+      <header className="border-b bg-background sticky top-0 z-50">
+        <div className="container flex items-center justify-between h-16 px-4">
+          <div className="flex items-center gap-2">
+            <div className="relative w-28 h-8">
+              <Image
+                src="/drok-logo.png"
+                alt="DROK Logo"
+                width={100}
+                height={100}
+                className="object-contain"
+              />
+            </div>
+            <h1 className="text-lg font-bold"></h1>
           </div>
-        </CardTitle>
-        <CardDescription>
-          LLM for Digital marketing and Sales Made By Digirocket Technologies{" "}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4 text-sm">
-        <div className="space-y-2">
-          <h3 className="font-medium flex items-center gap-2">
-            <GlobeIcon className="h-4 w-4 text-primary" />
-            Global Presence
-          </h3>
-          <ul className="pl-6 space-y-1 text-muted-foreground list-disc">
-            <li>Gurgaon, India - HQ (est. 2022)</li>
-            <li>Dover, Delaware, USA (est. 2022)</li>
-            <li>London, UK (est. 2025)</li>
-          </ul>
+        </div>
+      </header>
+
+      <main className="flex-1 flex flex-col md:flex-row">
+        <div className="flex-1 relative">
+          <ChatContainer />
         </div>
 
-        <Separator />
-
-        <div className="space-y-2">
-          <h3 className="font-medium flex items-center gap-2">
-            <AwardIcon className="h-4 w-4 text-primary" />
-            Key Achievements
-          </h3>
-          <ul className="pl-6 space-y-1 text-muted-foreground list-disc">
-            <li>200+ clients served globally</li>
-            <li>1200% revenue increase for US e-commerce client</li>
-            <li>1328% boost in organic traffic</li>
-            <li>Semrush Agency & Shopify Partner</li>
-          </ul>
+        <div className="hidden md:block w-80 border-l p-4 overflow-y-auto">
+          <CompanyInfo />
         </div>
 
-        <Separator />
-
-        <div className="space-y-2">
-          <h3 className="font-medium flex items-center gap-2">
-            <PhoneIcon className="h-4 w-4 text-primary" />
-            Get in Touch
-          </h3>
-          <p className="text-muted-foreground">
-            Schedule a free consultation at{" "}
-            <a
-              href="https://www.digirocket.io"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
+        {/* Mobile tabs for responsive design */}
+        <div className="md:hidden fixed bottom-[72px] left-0 right-0 border-t bg-background z-10">
+          <Tabs defaultValue="chat" className="w-full">
+            <TabsList className="w-full">
+              <TabsTrigger value="chat" className="flex-1">
+                <MessageSquareIcon className="h-4 w-4 mr-2" />
+                Chat
+              </TabsTrigger>
+              <TabsTrigger value="info" className="flex-1">
+                <InfoIcon className="h-4 w-4 mr-2" />
+                About
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="chat" className="hidden" />
+            <TabsContent
+              value="info"
+              className="p-4 border-t bg-background absolute w-full"
             >
-              www.digirocket.io
-            </a>
-          </p>
+              <CompanyInfo />
+            </TabsContent>
+          </Tabs>
         </div>
-      </CardContent>
-    </Card>
+      </main>
+    </div>
   );
 }
