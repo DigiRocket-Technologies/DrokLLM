@@ -72,7 +72,7 @@ export async function streamingChat({
         { role: "system", content: DIGIROCKET_PROMPT },
         ...messages.filter(message => message.role !== "system")
       ],
-      max_tokens: 800,
+      max_tokens: 2048,
       temperature: 0.7,
       top_p: 0.9,
       stream: true,
@@ -105,7 +105,7 @@ export async function streamingChat({
     return content;
   } catch (error) {
     const streamingError = error as StreamingChatError;
-    console.error("Streaming Chat Error:", {
+    console.error("Streaming Chat", {
       message: streamingError.message,
       status: streamingError.status,
       code: streamingError.code,
@@ -116,18 +116,18 @@ export async function streamingChat({
     let errorMessage = "An unexpected error occurred while processing your request.";
     
     if (streamingError.message.includes("Invalid API key")) {
-      errorMessage = "Authentication failed. Please contact support at www.digirocket.io.";
+      errorMessage = "Authentication failed. Please contact support at [www.digirocket.io](https://www.digirocket.io).";
     } else if (streamingError.message.includes("Rate limit exceeded")) {
       errorMessage = "We've reached our capacity limit. Please try again in a few minutes.";
     } else if (streamingError.message.includes("Service unavailable")) {
       // Start a 90-second countdown with engaging messages
       let secondsLeft = 90;
       const engagingMessages = [
-        "Hang tight! We're boosting our servers to deliver stellar performance in {seconds} seconds!",
-        "Almost there! Our team is fine-tuning things for you, back in {seconds} seconds!",
-        "Get ready! We're powering up our systems for you, just {seconds} seconds to go!",
-        "We're crafting something amazing! Service resuming in {seconds} seconds!",
-        "Hold on! Our digital rockets are relaunching in {seconds} seconds!"
+        "Hang tight! We're boosting our servers to deliver stellar performance in **{seconds} seconds**!",
+        "Almost there! Our team is fine-tuning things for you, back in **{seconds} seconds**!",
+        "Get ready! We're powering up our systems for you, just **{seconds} seconds** to go!",
+        "We're crafting something amazing! Service resuming in **{seconds} seconds**!",
+        "Hold on! Our digital rockets are relaunching in **{seconds} seconds**!"
       ];
 
       // Select a random engaging message and replace {seconds} with the current countdown
@@ -137,16 +137,16 @@ export async function streamingChat({
       };
 
       errorMessage = getRandomMessage();
-      onMessageUpdate(`Error: ${errorMessage}`);
+      onMessageUpdate(`${errorMessage}`);
       
       const countdownInterval = setInterval(() => {
         secondsLeft--;
         if (secondsLeft >= 0) {
           errorMessage = getRandomMessage();
-          onMessageUpdate(`Error: ${errorMessage}`);
+          onMessageUpdate(`${errorMessage}`);
         } else {
           clearInterval(countdownInterval);
-          onMessageUpdate("Error: Service is now available! Please try again or visit www.digirocket.io for support.");
+          onMessageUpdate("Service is now available! Please try again or visit [www.digirocket.io](https://www.digirocket.io) for support.");
         }
       }, 1000);
       
@@ -156,7 +156,7 @@ export async function streamingChat({
     }
 
     // Pass the error message to the callback for UI display
-    onMessageUpdate(`Error: ${errorMessage}`);
+    onMessageUpdate(`${errorMessage}`);
     throw new Error(errorMessage);
   }
 }
